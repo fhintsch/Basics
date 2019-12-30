@@ -8,6 +8,19 @@
 
 #import "ViewController.h"
 
+#import <sys/utsname.h>
+
+NSString *machineName()
+{
+    struct utsname systemInfo;
+    uname(&systemInfo);
+
+    NSString* deviceModel = [NSString stringWithCString:systemInfo.machine
+                                               encoding:NSUTF8StringEncoding];
+
+    return deviceModel;
+}
+
 @interface ViewController ()
 
 @end
@@ -16,7 +29,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    _screenWidth.text = [[NSNumber numberWithFloat:screenRect.size.width] stringValue];
+    _screenHeight.text = [[NSNumber numberWithFloat:screenRect.size.height] stringValue];
+    _deviceName.text = machineName();
 }
 
 
